@@ -6,20 +6,14 @@ var Controlador = function(modelo) {
 };
 
 Controlador.prototype = {
-  agregarPregunta: function(objetoPregunta) {
-    var value = objetoPregunta;
+  agregarPregunta: function(textoPregunta, respuestas) {
+    // var value = objetoPregunta;
+    var objetoRespuestas = [];
+    for (var i = 0; i < respuestas.length; i++) {
+      objetoRespuestas.push({'textoRespuesta': respuestas[i], 'cantidad':0});
+    }
 
-    // //var value = $('#pregunta').val(); //esta mal por que si se modifica la vista se caga el controler.
-    // var respuestas = [];
-    //
-    // $('[name="option[]"]').each(function() {
-    //   var respuesta = $(this).val();
-    //   //Completar el agregado de una respuesta
-    //   // pusheandola al arreglo de respuestas
-    //   respuestas.push({'textoRespuesta': respuesta, 'cantidad': 0});
-    //
-    // })
-    this.modelo.agregarPregunta(value.pregunta, value.respuestas);
+    this.modelo.agregarPregunta({'pregunta': textoPregunta, 'respuestas': objetoRespuestas});
   },
 
   borrarPregunta: function() {

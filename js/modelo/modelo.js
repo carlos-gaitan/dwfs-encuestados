@@ -22,21 +22,21 @@ Modelo.prototype = {
   },
 
   //se agrega una pregunta dado un nombre y sus respuestas
-  agregarPregunta: function(nombre, respuestas) {
+  agregarPregunta: function(objetoPregunta) {
     var id = this.obtenerUltimoId();
     id++;
-    var nuevaPregunta = {'textoPregunta': nombre, 'id': id, 'cantidadPorRespuesta': respuestas};
+    var nuevaPregunta = {'textoPregunta': objetoPregunta.pregunta, 'id': id, 'cantidadPorRespuesta': objetoPregunta.respuestas};
     this.preguntas.push(nuevaPregunta);
     this.guardar();
     this.preguntaAgregada.notificar();
   },
+
   borrarPregunta: function (id) {
     for (var i = 0; i < this.preguntas.length; i++) {
       var pregunta = this.preguntas[i];
       if (pregunta.id == id) {
         this.preguntas.splice(i, 1);
         break;
-
       };
     };
     this.preguntaEliminada.notificar();
