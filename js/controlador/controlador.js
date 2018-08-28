@@ -6,23 +6,25 @@ var Controlador = function(modelo) {
 };
 
 Controlador.prototype = {
-  agregarPregunta: function() {
-    var value = $('#pregunta').val(); //esta mal por que si se modifica la vista se caga el controler.
-    var respuestas = [];
+  agregarPregunta: function(objetoPregunta) {
+    var value = objetoPregunta;
 
-    $('[name="option[]"]').each(function() {
-      var respuesta = $(this).val();
-      //Completar el agregado de una respuesta
-      // pusheandola al arreglo de respuestas
-      respuestas.push({'textoRespuesta': respuesta, 'cantidad': 0});
-
-    })
-    this.modelo.agregarPregunta(value, respuestas);
+    // //var value = $('#pregunta').val(); //esta mal por que si se modifica la vista se caga el controler.
+    // var respuestas = [];
+    //
+    // $('[name="option[]"]').each(function() {
+    //   var respuesta = $(this).val();
+    //   //Completar el agregado de una respuesta
+    //   // pusheandola al arreglo de respuestas
+    //   respuestas.push({'textoRespuesta': respuesta, 'cantidad': 0});
+    //
+    // })
+    this.modelo.agregarPregunta(value.pregunta, value.respuestas);
   },
 
   borrarPregunta: function() {
     var id = parseInt($('.list-group-item.active').attr('id'));
-    lisit.modelo.borrarPregunta(id);
+    lista.modelo.borrarPregunta(id);
   },
 
   agregarVotos: function(){

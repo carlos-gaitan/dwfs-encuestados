@@ -59,7 +59,13 @@ VistaAdministrador.prototype = {
 
     //asociación de eventos
     e.botonAgregarPregunta.click(function() {
-      contexto.controlador.agregarPregunta();
+      var textoPregunta = $('#pregunta').val();
+      var respuestas = [];
+      $('[name="option[]"]').each(function() {
+        var respuesta = $(this).val();
+        respuestas.push(respuesta);
+      }
+      contexto.controlador.agregarPregunta(textoPregunta, respuestas);
       contexto.limpiarFormulario();
     });
     // Completar la asociación de de eventos a los
@@ -67,9 +73,7 @@ VistaAdministrador.prototype = {
     e.botonBorrarPregunta.click(function() {
       contexto.controlador.borrarPregunta();
     });
-
-
-  },
+},
 
 
   limpiarFormulario: function(){
