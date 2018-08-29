@@ -12,13 +12,12 @@ Controlador.prototype = {
     for (var i = 0; i < respuestas.length; i++) {
       objetoRespuestas.push({'textoRespuesta': respuestas[i], 'cantidad':0});
     }
-
     this.modelo.agregarPregunta({'pregunta': textoPregunta, 'respuestas': objetoRespuestas});
   },
 
-  borrarPregunta: function() {
-    var id = parseInt($('.list-group-item.active').attr('id'));
-    lista.modelo.borrarPregunta(id);
+  borrarPregunta: function(id) {
+    // var id = parseInt($('.list-group-item.active').attr('id'));
+    this.modelo.borrarPregunta(id);
   },
 
   agregarVotos: function(){
