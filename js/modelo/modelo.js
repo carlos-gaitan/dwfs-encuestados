@@ -8,6 +8,7 @@ var Modelo = function() {
   //inicializacion de eventos
   this.preguntaAgregada = new Evento(this);
   this.preguntaEliminada = new Evento(this);
+  this.preguntasInicializadas = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -31,7 +32,7 @@ Modelo.prototype = {
     this.preguntaAgregada.notificar();
   },
 
-  borrarPregunta: function (id) {
+  borrarPregunta: function(id) {
     for (var i = 0; i < this.preguntas.length; i++) {
       var pregunta = this.preguntas[i];
       if (pregunta.id == id) {
@@ -39,9 +40,29 @@ Modelo.prototype = {
         break;
       };
     };
+    this.guardar();
     this.preguntaEliminada.notificar();
   },
+
+  // la funcion inicializaPreguntas no se donde ponerla ni de donde llamarla
+  inicializaPreguntas: function() {
+    var stringDelObjetoPreguntas = localStorage.getItem('encuestados_preguntas');
+    this.preguntas = JSON.parse(stringDelObjetoPreguntas);
+    this.preguntasInicializadas.notificar();
+  },
+
+// ---------------------------------------------------------------------------------
+//   vistaAdmin.reconstruirLista();
+// undefined
+// var stringDelObjetoPreguntas = localStorage.getItem('encuestados_preguntas');
+// undefined
+// modelo.preguntas = JSON.parse(stringDelObjetoPreguntas);
+// (3) [{…}, {…}, {…}]
+// vistaAdmin.reconstruirLista();
+// ---------------------------------------------------------------------------------
+
   //se guardan las preguntas
   guardar: function(){
+    localStorage.setItem('encuestados_preguntas', JSON.stringify(this.preguntas));
   },
 };
