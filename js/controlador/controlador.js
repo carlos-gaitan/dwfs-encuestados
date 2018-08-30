@@ -20,6 +20,10 @@ Controlador.prototype = {
     this.modelo.borrarPregunta(id);
   },
 
+  inicializaPreguntas: function() {
+    this.modelo.inicializaPreguntas();
+  },
+
   agregarVotos: function(){
     var contexto = this;
     $('#preguntas').find('div').each(function(){

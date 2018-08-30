@@ -28,6 +28,10 @@ VistaAdministrador.prototype = {
     this.reconstruirLista();
     this.configuracionDeBotones();
 
+    // FIXME:
+    // Esta bien esto aca?? recarga las preguntas del localStorage.
+    this.controlador.inicializaPreguntas();
+
   },
 
   construirElementoPregunta: function(pregunta){
@@ -83,4 +87,11 @@ VistaAdministrador.prototype = {
   limpiarFormulario: function(){
     $('.form-group.answer.has-feedback.has-success').remove();
   },
+
+  //se que esto no va asociación
+  // $( document ).ready(function() {
+  //     console.log( "ready!" );
+  //     contexto.controlador.inicializaPreguntas();
+  // });
+
 };

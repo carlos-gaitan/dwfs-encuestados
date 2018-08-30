@@ -44,7 +44,9 @@ Modelo.prototype = {
     this.preguntaEliminada.notificar();
   },
 
+  // FIXME:
   // la funcion inicializaPreguntas no se donde ponerla ni de donde llamarla
+  // creo que ya esta !
   inicializaPreguntas: function() {
     var stringDelObjetoPreguntas = localStorage.getItem('encuestados_preguntas');
     this.preguntas = JSON.parse(stringDelObjetoPreguntas);
