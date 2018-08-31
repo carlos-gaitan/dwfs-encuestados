@@ -9,6 +9,7 @@ var Modelo = function() {
   this.preguntaAgregada = new Evento(this);
   this.preguntaEliminada = new Evento(this);
   this.preguntasInicializadas = new Evento(this);
+  this.respuestaAgregada = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -21,6 +22,15 @@ Modelo.prototype = {
         return 0;
       }
   },
+  //se obtiene el indice en el array del id dado
+  buscarIndicePorId: function(id) {
+    for (var i = 0; i < this.preguntas.length; i++) {
+      if (this.preguntas[i].id == id) {
+        return i;
+        break;
+      }
+    }
+  },
 
   //se agrega una pregunta dado un nombre y sus respuestas
   agregarPregunta: function(objetoPregunta) {
@@ -31,37 +41,40 @@ Modelo.prototype = {
     this.guardar();
     this.preguntaAgregada.notificar();
   },
+  //se agrega una respuesta dado un id
+  // todo: anda! flata vista y controlador -- modelo.agregarRespuesta(2,'elculo de la mierda'); 
+  agregarRespuesta: function(id, textonuevaRespuesta) {
+    //this.preguntas[2].cantidadPorRespuesta[2].textoRespuesta
+    var nuevaRespuesta = {'cantidad': 0 ,'textoRespuesta': textonuevaRespuesta};
+    var indicePreguntas = this.buscarIndicePorId(id);
+    this.preguntas[indicePreguntas].cantidadPorRespuesta.push(nuevaRespuesta);
+    this.guardar();
+    this.respuestaAgregada.notificar();
+  },
 
+  //sumarle 1 al voto de una respuesta
+  sumarVoto: function(){
+
+  },
+
+  //editarPregunta
+  editarPregunta: function(id) {
+
+  },
+
+  //se borra pregunta dado un id
   borrarPregunta: function(id) {
-    for (var i = 0; i < this.preguntas.length; i++) {
-      var pregunta = this.preguntas[i];
-      if (pregunta.id == id) {
-        this.preguntas.splice(i, 1);
-        break;
-      };
-    };
+    this.preguntas.splice(this.buscarIndicePorId(id), 1);
     this.guardar();
     this.preguntaEliminada.notificar();
   },
 
-  // FIXME:
-  // la funcion inicializaPreguntas no se donde ponerla ni de donde llamarla
-  // creo que ya esta !
+  //se traen las preguntas del localStorage
   inicializaPreguntas: function() {
     var stringDelObjetoPreguntas = localStorage.getItem('encuestados_preguntas');
     this.preguntas = JSON.parse(stringDelObjetoPreguntas);
     this.preguntasInicializadas.notificar();
   },
-
-// ---------------------------------------------------------------------------------
-//   vistaAdmin.reconstruirLista();
-// undefined
-// var stringDelObjetoPreguntas = localStorage.getItem('encuestados_preguntas');
-// undefined
-// modelo.preguntas = JSON.parse(stringDelObjetoPreguntas);
-// (3) [{…}, {…}, {…}]
-// vistaAdmin.reconstruirLista();
-// ---------------------------------------------------------------------------------
 
   //se guardan las preguntas
   guardar: function(){

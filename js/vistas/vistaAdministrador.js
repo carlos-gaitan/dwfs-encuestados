@@ -17,6 +17,9 @@ var VistaAdministrador = function(modelo, controlador, elementos) {
   this.modelo.preguntasInicializadas.suscribir(function() {
     contexto.reconstruirLista();
   });
+  this.modelo.respuestaAgregada.suscribir(function() {
+    contexto.reconstruirLista();
+  });
 };
 
 
