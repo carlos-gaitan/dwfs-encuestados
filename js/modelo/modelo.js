@@ -42,7 +42,7 @@ Modelo.prototype = {
     this.preguntaAgregada.notificar();
   },
   //se agrega una respuesta dado un id
-  // todo: anda! flata vista y controlador -- modelo.agregarRespuesta(2,'elculo de la mierda'); 
+  // todo: anda! flata vista y controlador -- modelo.agregarRespuesta(2,'elculo de la mierda');
   agregarRespuesta: function(id, textonuevaRespuesta) {
     //this.preguntas[2].cantidadPorRespuesta[2].textoRespuesta
     var nuevaRespuesta = {'cantidad': 0 ,'textoRespuesta': textonuevaRespuesta};
@@ -72,7 +72,12 @@ Modelo.prototype = {
   //se traen las preguntas del localStorage
   inicializaPreguntas: function() {
     var stringDelObjetoPreguntas = localStorage.getItem('encuestados_preguntas');
-    this.preguntas = JSON.parse(stringDelObjetoPreguntas);
+    if (stringDelObjetoPreguntas == null) {
+      this.preguntas = [];
+    }
+    else {
+      this.preguntas = JSON.parse(stringDelObjetoPreguntas);
+    }
     this.preguntasInicializadas.notificar();
   },
 
