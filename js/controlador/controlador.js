@@ -9,7 +9,7 @@ Controlador.prototype = {
   agregarPregunta: function(textoPregunta, respuestas) {
     // var value = objetoPregunta;
     var objetoRespuestas = [];
-    for (var i = 0; i < respuestas.length; i++) {
+    for (var i = 0; i < respuestas.length - 1; i++) {
       objetoRespuestas.push({'textoRespuesta': respuestas[i], 'cantidad':0});
     }
     this.modelo.agregarPregunta({'pregunta': textoPregunta, 'respuestas': objetoRespuestas});

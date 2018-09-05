@@ -63,7 +63,7 @@ VistaUsuario.prototype = {
   //muestra respuestas
   mostrarRespuestas: function(listaPreguntas,respuestas, clave){
     respuestas.forEach (function(elemento) {
-      listaPreguntas.append($("<div>"));
+      listaPreguntas.append($("<span>"));
       listaPreguntas.append($('<input>', {
         type: 'radio',
         value: elemento.textoRespuesta,
@@ -73,7 +73,7 @@ VistaUsuario.prototype = {
         for: elemento.textoRespuesta,
         text: elemento.textoRespuesta
       }));
-        listaPreguntas.append($("</div>"));
+        listaPreguntas.append($("</span>"));
     });
   },
 

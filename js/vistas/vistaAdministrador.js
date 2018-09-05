@@ -30,17 +30,13 @@ VistaAdministrador.prototype = {
     validacionDeFormulario();
     this.reconstruirLista();
     this.configuracionDeBotones();
-
-    // FIXME:
-    // Esta bien esto aca?? recarga las preguntas del localStorage.
     this.controlador.inicializaPreguntas();
-
   },
 
   construirElementoPregunta: function(pregunta){
     var contexto = this;
     var nuevoItem = $('<li class="list-group-item" id="' + pregunta.id + '">' + pregunta.textoPregunta + '</li>');
-  //var nuevoItem = `$(`<li class=“list-group-item” id=“${pregunta.id}“>${pregunta.textoPregunta}</li>`);`
+    //var nuevoItem = `$(`<li class=“list-group-item” id=“${pregunta.id}“>${pregunta.textoPregunta}</li>`);`
 
     //completar
     //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
@@ -90,11 +86,4 @@ VistaAdministrador.prototype = {
   limpiarFormulario: function(){
     $('.form-group.answer.has-feedback.has-success').remove();
   },
-
-  //se que esto no va asociación
-  // $( document ).ready(function() {
-  //     console.log( "ready!" );
-  //     contexto.controlador.inicializaPreguntas();
-  // });
-
 };
