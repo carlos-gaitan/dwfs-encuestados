@@ -19,11 +19,11 @@ VistaUsuario.prototype = {
     this.reconstruirLista();
     var elementos = this.elementos;
     var contexto = this;
-    
+
     elementos.botonAgregar.click(function() {
-      contexto.controlador.agregarVotos();  
+      contexto.controlador.agregarVotos();
     });
-      
+
     this.reconstruirGrafico();
   },
 
@@ -51,6 +51,8 @@ VistaUsuario.prototype = {
     preguntas.forEach(function(clave){
       //completar
       //agregar a listaPreguntas un elemento div con valor "clave.textoPregunta", texto "clave.textoPregunta", id "clave.id"
+      var nuevoDiv = $('<div id="' + clave.id + '">' + clave.textoPregunta + '</div>');
+      listaPreguntas.append(nuevoDiv);
       var respuestas = clave.cantidadPorRespuesta;
       contexto.mostrarRespuestas(listaPreguntas,respuestas, clave);
     })
