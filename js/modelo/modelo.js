@@ -79,6 +79,12 @@ Modelo.prototype = {
   inicializaPreguntas: function() {
     var stringDelObjetoPreguntas = localStorage.getItem('encuestados_preguntas');
     this.preguntas = JSON.parse(stringDelObjetoPreguntas);
+    if (stringDelObjetoPreguntas == null) {
+      this.preguntas = [];
+    }
+    else {
+      this.preguntas = JSON.parse(stringDelObjetoPreguntas);
+    }
     this.preguntasInicializadas.notificar();
   },
 
