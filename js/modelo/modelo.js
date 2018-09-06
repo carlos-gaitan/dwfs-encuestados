@@ -32,6 +32,17 @@ Modelo.prototype = {
     }
   },
 
+  //se obtiene el indice en el array del id dado
+  buscarIndicePorTextoPregunta: function(textoPregunta) {
+    for (var i = 0; i < this.preguntas.length; i++) {
+      if (this.preguntas[i].textoPregunta == textoPregunta) {
+        return i;
+        break;
+      }
+    }
+  },
+
+
   //se agrega una pregunta dado un nombre y sus respuestas
   agregarPregunta: function(objetoPregunta) {
     var id = this.obtenerUltimoId();
@@ -53,11 +64,16 @@ Modelo.prototype = {
   },
 
   //sumarle 1 al voto de una respuesta
-  sumarVoto: function(idPregunta, textoRespuesta){
-    var indicePreguntas = this.buscarIndicePorId(idPregunta);
+  sumarVoto: function(textoPregunta, textoRespuesta){
+    var indicePreguntas = this.buscarIndicePorTextoPregunta(textoPregunta);
+    console.log('probando', textoPregunta, textoRespuesta);
       for (var i = 0; i < this.preguntas[indicePreguntas].cantidadPorRespuesta.length; i++) {
+        console.log(this.preguntas[indicePreguntas].cantidadPorRespuesta[i].textoRespuesta == textoRespuesta);
         if (this.preguntas[indicePreguntas].cantidadPorRespuesta[i].textoRespuesta == textoRespuesta) {
           this.preguntas[indicePreguntas].cantidadPorRespuesta[i].cantidad++;
+          console.log('entro al if debajo de la suma');
+          this.guardar();
+          this.respuestaAgregada.notificar();
         break;
       }
     }
