@@ -36,7 +36,9 @@ $('#localStorageForm')
       .attr('id', "respuesta" + this.cantRespuestas)
       .insertBefore($template),
       $option = $clone.find('[name="option[]"]');
-
+//
+//$('#optionTemplate').clone().removeClass('hide').attr('id', "respuesta" + this.cantRespuestas).insertBefore('#optionTemplate').find('[name="option[]"]');
+//
     // agregado de nuevo campo al formulario
     $('#localStorageForm').formValidation('addField', $option);
   })

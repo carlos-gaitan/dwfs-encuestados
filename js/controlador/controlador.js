@@ -24,6 +24,15 @@ Controlador.prototype = {
     this.modelo.inicializaPreguntas();
   },
 
+  editarPregunta: function(id) {
+    var objetoPregunta = this.modelo.recuperarObjetoPregunta(id);
+    return objetoPregunta;
+    //esto lo deberia hacer en la vista ...
+    //meter con jquery el objeto en los imput
+    //$("#pregunta").val('la pregunta');
+    //$("form-control").val('la rta');
+  },
+
   // agregarVotos VIEJA
   // agregarVotos: function(){
   //   var contexto = this;

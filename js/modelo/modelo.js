@@ -42,6 +42,21 @@ Modelo.prototype = {
     }
   },
 
+  recuperarObjetoPregunta: function(id) {
+    var i = this.buscarIndicePorId(id);
+    var objetoPregunta = Object.assign({}, this.preguntas[i]);
+
+    // aca copio el objeto de encuesta a editar desde el array de objetos DE FORMA PRIMITIVA - VIEJA ESCUELA
+    // var objetoPregunta = {'textoPregunta': this.preguntas[i].pregunta, 'id': id, 'cantidadPorRespuesta': this.preguntas[i].respuestas};
+    // for (var j = 0; j < this.preguntas[i].cantidadPorRespuesta.length-1; j++) {
+    //   objetoPregunta.cantidadPorRespuesta[j].textoRespuesta = this.preguntas[i].cantidadPorRespuesta[j].textoRespuesta;
+    //   objetoPregunta.cantidadPorRespuesta[j].cantidad = this.preguntas[i].cantidadPorRespuesta[j].cantidad;
+    //   //objetoPregunta.cantidadPorRespuesta.push(this.preguntas[i].cantidadPorRespuesta[j]);
+    // }
+
+    return objetoPregunta;
+  },
+
 
   //se agrega una pregunta dado un nombre y sus respuestas
   agregarPregunta: function(objetoPregunta) {
