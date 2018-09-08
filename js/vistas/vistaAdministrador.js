@@ -86,8 +86,7 @@ VistaAdministrador.prototype = {
       console.log(objetoPregunta);
       console.log(objetoPregunta.cantidadPorRespuesta[0].textoRespuesta);
       $('#pregunta').val(objetoPregunta.textoPregunta);
-      //$('input').find('.form-control').remove();
-
+      $('#respuesta .form-control').remove();
       for (var i = 0; i < objetoPregunta.cantidadPorRespuesta.length; i++) {
         $('#optionTemplate').clone().removeClass('hide').attr('id', i+1).insertBefore('#optionTemplate').find('[name="option[]"]').val(objetoPregunta.cantidadPorRespuesta[i].textoRespuesta);
         //$('[name="option[' + i+1 + ']"]').val(objetoPregunta.cantidadPorRespuesta[i].textoRespuesta);
