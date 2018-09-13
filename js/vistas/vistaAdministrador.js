@@ -87,10 +87,13 @@ VistaAdministrador.prototype = {
       console.log(objetoPregunta.cantidadPorRespuesta[0].textoRespuesta);
       $('#pregunta').val(objetoPregunta.textoPregunta);
       $('#respuesta .form-control').remove();
+      $('#agregarPregunta').html('Guardar pregunta editada');
+      $('#agregarPregunta').attr('id', 'guardarPreguntaEditada');
       for (var i = 0; i < objetoPregunta.cantidadPorRespuesta.length; i++) {
         $('#optionTemplate').clone().removeClass('hide').attr('id', i+1).insertBefore('#optionTemplate').find('[name="option[]"]').val(objetoPregunta.cantidadPorRespuesta[i].textoRespuesta);
-        //$('[name="option[' + i+1 + ']"]').val(objetoPregunta.cantidadPorRespuesta[i].textoRespuesta);
+        //$('[name="option[' + i+1 + ']"]').val(objetoPregunta.cantidadPorRespuesta[i].textoRespuesta);  
       }
+
     });
 },
 
