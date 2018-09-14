@@ -67,6 +67,19 @@ Modelo.prototype = {
     this.guardar();
     this.preguntaAgregada.notificar();
   },
+
+  agregarPreguntaEditada: function(objetoPregunta) {
+    var indice = this.buscarIndicePorTextoPregunta(objetoPregunta.textoPregunta);
+    console.log(indice);
+    //var id = this.preguntas[indice].id;
+    this.preguntas[indice].textoPregunta = objetoPregunta.pregunta;
+    this.preguntas[indice].cantidadPorRespuesta = objetoPregunta.respuestas;
+    this.preguntas.splice(indice, 1, preguntaAReemplazar);
+    //var nuevaPregunta = {'textoPregunta': objetoPregunta.pregunta, 'id': id, 'cantidadPorRespuesta': objetoPregunta.respuestas};
+    // this.preguntas.push(nuevaPregunta);
+    this.guardar();
+    this.preguntaAgregada.notificar();
+  },
   //se agrega una respuesta dado un id
   // todo: anda! flata vista y controlador -- modelo.agregarRespuesta(2,'elculo de la mierda');
   agregarRespuesta: function(id, textonuevaRespuesta) {

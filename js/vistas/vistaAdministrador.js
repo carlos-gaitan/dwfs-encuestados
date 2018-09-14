@@ -74,6 +74,25 @@ VistaAdministrador.prototype = {
       contexto.controlador.agregarPregunta(textoPregunta, respuestas);
       contexto.limpiarFormulario();
     });
+    e.botonAgregarPreguntaEditada.click(function() {
+      /*armamos el */
+      var textoPregunta = $('#pregunta').val();
+      var respuestas = [];
+      $('[name="option[]"]').each(function() {
+        var respuesta = $(this).val();
+        respuestas.push(respuesta);
+      });
+      /*acomodamos el frmulario y lo dejamos listo par*/
+      $('#agregarPregunta').removeClass('hide');
+      $('#agregarPreguntaEditada').addClass('hide');
+      $('#respuesta .form-control').removeClass('hide');
+      $('.form-group.answer.agregado-a-mano').remove();
+      contexto.reconstruirLista();
+      contexto.limpiarFormulario();
+      /*enciamos los datos al controlador*/
+      contexto.controlador.agregarPreguntaEditada(textoPregunta, respuestas);
+    });
+
     // Completar la asociación de de eventos a los
     // botones editarPregunta, borrarPregunta y borrarTodo
     e.botonBorrarPregunta.click(function() {
@@ -81,23 +100,30 @@ VistaAdministrador.prototype = {
       contexto.controlador.borrarPregunta(id);
     });
     e.botonEditarPregunta.click(function() {
+      $('#agregarPregunta').addClass('hide');
+      $('#agregarPreguntaEditada').removeClass('hide');
       var id = $('.list-group-item.active').attr('id');
       var objetoPregunta = contexto.controlador.editarPregunta(id);
       console.log(objetoPregunta);
       console.log(objetoPregunta.cantidadPorRespuesta[0].textoRespuesta);
       $('#pregunta').val(objetoPregunta.textoPregunta);
-      $('#respuesta .form-control').remove();
-      $('#agregarPregunta').html('Guardar pregunta editada');
-      $('#agregarPregunta').attr('id', 'guardarPreguntaEditada');
+      $('#respuesta .form-control').addClass('hide');
       for (var i = 0; i < objetoPregunta.cantidadPorRespuesta.length; i++) {
-        $('#optionTemplate').clone().removeClass('hide').attr('id', i+1).insertBefore('#optionTemplate').find('[name="option[]"]').val(objetoPregunta.cantidadPorRespuesta[i].textoRespuesta);
-        //$('[name="option[' + i+1 + ']"]').val(objetoPregunta.cantidadPorRespuesta[i].textoRespuesta);  
+        $('#optionTemplate').clone().removeClass('hide').addClass('agregado-a-mano').attr('id', i+1).insertBefore('#optionTemplate').find('[name="option[]"]').val(objetoPregunta.cantidadPorRespuesta[i].textoRespuesta);
       }
-
     });
+
+    // e.botonGuardarPreguntaEditada.click(function() {
+    //   var textoPregunta = $('#pregunta').val();
+    //   var respuestas = [];
+    //   $('[name="option[]"]').each(function() {
+    //     var respuesta = $(this).val();
+    //     respuestas.push(respuesta);
+    //   });
+    //   contexto.controlador.agregarPreguntaEditada(textoPregunta, respuestas);
+    //   contexto.limpiarFormulario();
+    // });
 },
-
-
   limpiarFormulario: function(){
     $('.form-group.answer.has-feedback.has-success').remove();
   },

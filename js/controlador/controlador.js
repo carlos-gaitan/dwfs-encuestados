@@ -15,6 +15,15 @@ Controlador.prototype = {
     this.modelo.agregarPregunta({'pregunta': textoPregunta, 'respuestas': objetoRespuestas});
   },
 
+  agregarPreguntaEditada: function(textoPregunta, respuestas) {
+    // var value = objetoPregunta;
+    var objetoRespuestas = [];
+    for (var i = 0; i < respuestas.length - 1; i++) {
+      objetoRespuestas.push({'textoRespuesta': respuestas[i], 'cantidad':0});
+    }
+    this.modelo.agregarPreguntaEditada({'pregunta': textoPregunta, 'respuestas': objetoRespuestas});
+  },
+
   borrarPregunta: function(id) {
     // var id = parseInt($('.list-group-item.active').attr('id'));
     this.modelo.borrarPregunta(id);
