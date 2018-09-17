@@ -21,7 +21,7 @@ Controlador.prototype = {
     for (var i = 0; i < respuestas.length - 1; i++) {
       objetoRespuestas.push({'textoRespuesta': respuestas[i], 'cantidad':0});
     }
-    this.modelo.agregarPreguntaEditada({'pregunta': textoPregunta, 'respuestas': objetoRespuestas});
+    this.modelo.agregarPreguntaEditada(textoPregunta, objetoRespuestas);
   },
 
   borrarPregunta: function(id) {

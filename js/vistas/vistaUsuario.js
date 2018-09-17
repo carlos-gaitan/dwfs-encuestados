@@ -34,7 +34,7 @@ VistaUsuario.prototype = {
     var preguntas = this.modelo.preguntas;
     preguntas.forEach(function(clave){
       var listaParaGrafico = [[clave.textoPregunta, 'Cantidad']];
-      var respuestas = clave.cantidadPorRespuesta;
+      var respuestas = clave.respuestas;
       respuestas.forEach (function(elemento) {
         listaParaGrafico.push([elemento.textoRespuesta,elemento.cantidad]);
       });
@@ -55,7 +55,7 @@ VistaUsuario.prototype = {
       var nuevoDiv = $('<div id="' + clave.id + '">' + clave.textoPregunta + '</div>');
       listaPreguntas.append(nuevoDiv);
 
-      var respuestas = clave.cantidadPorRespuesta;
+      var respuestas = clave.respuestas;
       contexto.mostrarRespuestas(listaPreguntas,respuestas, clave);
     })
   },

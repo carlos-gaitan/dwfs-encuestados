@@ -43,7 +43,8 @@ VistaAdministrador.prototype = {
     var interiorItem = $('.d-flex');
     var titulo = interiorItem.find('h5');
     titulo.text(pregunta.textoPregunta);
-    interiorItem.find('small').text(pregunta.cantidadPorRespuesta.map(function(resp){
+    // interiorItem.find('small').text(pregunta.cantidadPorRespuesta.map(function(resp){
+    interiorItem.find('small').text(pregunta.respuestas.map(function(resp){
       return " " + resp.textoRespuesta;
     }));
     nuevoItem.html($('.d-flex').html());
@@ -80,7 +81,11 @@ VistaAdministrador.prototype = {
       var respuestas = [];
       $('[name="option[]"]').each(function() {
         var respuesta = $(this).val();
-        respuestas.push(respuesta);
+        // FIXME: Hay que arreglar este bug y sacar el if
+        if(respuesta != "") {
+          respuestas.push(respuesta);
+          console.log('desde vista admin te tiro la respuesta:' + respuesta);
+        };
       });
       /*acomodamos el frmulario y lo dejamos listo par*/
       $('#agregarPregunta').removeClass('hide');
@@ -104,12 +109,10 @@ VistaAdministrador.prototype = {
       $('#agregarPreguntaEditada').removeClass('hide');
       var id = $('.list-group-item.active').attr('id');
       var objetoPregunta = contexto.controlador.editarPregunta(id);
-      console.log(objetoPregunta);
-      console.log(objetoPregunta.cantidadPorRespuesta[0].textoRespuesta);
       $('#pregunta').val(objetoPregunta.textoPregunta);
       $('#respuesta .form-control').addClass('hide');
-      for (var i = 0; i < objetoPregunta.cantidadPorRespuesta.length; i++) {
-        $('#optionTemplate').clone().removeClass('hide').addClass('agregado-a-mano').attr('id', i+1).insertBefore('#optionTemplate').find('[name="option[]"]').val(objetoPregunta.cantidadPorRespuesta[i].textoRespuesta);
+      for (var i = 0; i < objetoPregunta.respuestas.length; i++) {
+        $('#optionTemplate').clone().removeClass('hide').addClass('agregado-a-mano').attr('id', i+1).insertBefore('#optionTemplate').find('[name="option[]"]').val(objetoPregunta.respuestas[i].textoRespuesta);
       }
     });
 
