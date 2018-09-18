@@ -16,12 +16,20 @@ Controlador.prototype = {
   },
 
   agregarPreguntaEditada: function(textoPregunta, respuestas) {
-    // var value = objetoPregunta;
-    var objetoRespuestas = [];
-    for (var i = 0; i < respuestas.length - 1; i++) {
-      objetoRespuestas.push({'textoRespuesta': respuestas[i], 'cantidad':0});
-    }
-    this.modelo.agregarPreguntaEditada(textoPregunta, objetoRespuestas);
+    var objetoPreguntaEditada = {
+      'textoPregunta': textoPregunta,
+      'id': 0,
+      'respuestas': [],
+    };
+    for (var i = 0; i < respuestas.length; i++) {
+      objetoPreguntaEditada.respuestas.push({'textoRespuesta': respuestas[i], 'cantidad':0});
+    };
+    // console.log('--- Mensaje desde el controlador ---');
+    // console.log('Pregunta: ' + objetoPreguntaEditada.textoPregunta);
+    // for (var i = 0; i < objetoPreguntaEditada.respuestas.length; i++) {
+    //   console.log('textoRespuesta: ' + objetoPreguntaEditada.respuestas[i].textoRespuesta + ' cantidad de votos: ' + objetoPreguntaEditada.respuestas[i].cantidad);
+    // };
+    this.modelo.agregarPreguntaEditada(objetoPreguntaEditada);
   },
 
   borrarPregunta: function(id) {
@@ -29,6 +37,10 @@ Controlador.prototype = {
     this.modelo.borrarPregunta(id);
   },
 
+  borrarTodo: function() {
+    this.modelo.borrarTodo();
+  },
+  
   inicializaPreguntas: function() {
     this.modelo.inicializaPreguntas();
   },
@@ -36,10 +48,6 @@ Controlador.prototype = {
   editarPregunta: function(id) {
     var objetoPregunta = this.modelo.recuperarObjetoPregunta(id);
     return objetoPregunta;
-    //esto lo deberia hacer en la vista ...
-    //meter con jquery el objeto en los imput
-    //$("#pregunta").val('la pregunta');
-    //$("form-control").val('la rta');
   },
 
   // agregarVotos VIEJA

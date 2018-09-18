@@ -77,18 +77,15 @@ Modelo.prototype = {
     this.preguntaAgregada.notificar();
   },
 
-  agregarPreguntaEditada: function(pepa, rtas) {
-    var indice = this.buscarIndicePorTextoPregunta(pepa);
-    console.log(indice);
-    //var id = this.preguntas[indice].id;
-    this.preguntas[indice].textoPregunta = pepa;
-    this.preguntas[indice].respuestas = rtas;
-    //this.preguntas.splice(indice, 1, objetoPregunta);
-    //var nuevaPregunta = {'textoPregunta': objetoPregunta.pregunta, 'id': id, 'cantidadPorRespuesta': objetoPregunta.respuestas};
-    // this.preguntas.push(nuevaPregunta);
+  agregarPreguntaEditada: function(objetoPreguntaEditada) {
+    var preguntaEditada = objetoPreguntaEditada;
+    var indice = this.buscarIndicePorTextoPregunta(preguntaEditada.textoPregunta);
+    preguntaEditada.id = this.preguntas[indice].id;
+    this.preguntas.splice(indice, 1, preguntaEditada);
     this.guardar();
     this.preguntaAgregada.notificar();
   },
+
   //se agrega una respuesta dado un id
   // todo: anda! flata vista y controlador -- modelo.agregarRespuesta(2,'elculo de la mierda');
   agregarRespuesta: function(id, textonuevaRespuesta) {
@@ -125,6 +122,12 @@ Modelo.prototype = {
   //se borra pregunta dado un id
   borrarPregunta: function(id) {
     this.preguntas.splice(this.buscarIndicePorId(id), 1);
+    this.guardar();
+    this.preguntaEliminada.notificar();
+  },
+
+  borrarTodo: function() {
+    this.preguntas = []
     this.guardar();
     this.preguntaEliminada.notificar();
   },

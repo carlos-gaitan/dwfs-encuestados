@@ -76,25 +76,29 @@ VistaAdministrador.prototype = {
       contexto.limpiarFormulario();
     });
     e.botonAgregarPreguntaEditada.click(function() {
-      /*armamos el */
+      /*armamos conseguimos la pregunta y respuestas a editar*/
       var textoPregunta = $('#pregunta').val();
       var respuestas = [];
       $('[name="option[]"]').each(function() {
         var respuesta = $(this).val();
         // FIXME: Hay que arreglar este bug y sacar el if
+        // TODO: Por favor arreglar esta crotadaaaaaaaaa!
         if(respuesta != "") {
           respuestas.push(respuesta);
-          console.log('desde vista admin te tiro la respuesta:' + respuesta);
         };
       });
-      /*acomodamos el frmulario y lo dejamos listo par*/
+      /*ya tenemos la pregunta y respuestas, ahora las mostramos*/
+      console.log('--- Mensaje desde la vistaadmin ---');
+      console.log('Pregunta: ' + textoPregunta);
+      console.log('Respuestas: ' + respuestas);
+      /*acomodamos el formulario y lo dejamos listo para volver a agregar una nueva pregunta*/
       $('#agregarPregunta').removeClass('hide');
       $('#agregarPreguntaEditada').addClass('hide');
       $('#respuesta .form-control').removeClass('hide');
       $('.form-group.answer.agregado-a-mano').remove();
       contexto.reconstruirLista();
       contexto.limpiarFormulario();
-      /*enciamos los datos al controlador*/
+      /*enviamos la pregunta y respuestas al controlador*/
       contexto.controlador.agregarPreguntaEditada(textoPregunta, respuestas);
     });
 
@@ -104,6 +108,10 @@ VistaAdministrador.prototype = {
       var id = parseInt($('.list-group-item.active').attr('id'));
       contexto.controlador.borrarPregunta(id);
     });
+    e.botonBorrarTodo.click(function() {
+      contexto.controlador.borrarTodo();
+    });
+
     e.botonEditarPregunta.click(function() {
       $('#agregarPregunta').addClass('hide');
       $('#agregarPreguntaEditada').removeClass('hide');
