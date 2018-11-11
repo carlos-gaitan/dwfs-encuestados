@@ -2,6 +2,7 @@
  * Modelo
  */
 /*
+ejemplo de objeto pregunta
 preguntas[0]: {
   'textoPregunta':'Comida preferida?',
   'id': '1',
@@ -20,6 +21,7 @@ var Modelo = function() {
   this.preguntaEliminada = new Evento(this);
   this.preguntasInicializadas = new Evento(this);
   this.respuestaAgregada = new Evento(this);
+  this.votacionEfectuada = new Evento(this);
 };
 
 Modelo.prototype = {
@@ -32,6 +34,7 @@ Modelo.prototype = {
         return 0;
       }
   },
+
   //se obtiene el indice en el array del id dado
   buscarIndicePorId: function(id) {
     for (var i = 0; i < this.preguntas.length; i++) {
@@ -52,6 +55,7 @@ Modelo.prototype = {
     }
   },
 
+  //Dado un id de pregunta obtengo el respectivo objeto.
   recuperarObjetoPregunta: function(id) {
     var i = this.buscarIndicePorId(id);
     var objetoPregunta = Object.assign({}, this.preguntas[i]);
@@ -65,34 +69,32 @@ Modelo.prototype = {
     return objetoPregunta;
   },
 
-
   //se agrega una pregunta dado un nombre y sus respuestas
   agregarPregunta: function(objetoPregunta) {
     var id = this.obtenerUltimoId();
     id++;
-    // var nuevaPregunta = {'textoPregunta': objetoPregunta.pregunta, 'id': id, 'cantidadPorRespuesta': objetoPregunta.respuestas};
     var nuevaPregunta = {'textoPregunta': objetoPregunta.pregunta, 'id': id, 'respuestas': objetoPregunta.respuestas};
     this.preguntas.push(nuevaPregunta);
     this.guardar();
     this.preguntaAgregada.notificar();
   },
 
+  //pisa todos los datos de la pregunta con el objeto obtenido tras la edicion de la pregunta.
   agregarPreguntaEditada: function(objetoPreguntaEditada) {
     var preguntaEditada = objetoPreguntaEditada;
-    var indice = this.buscarIndicePorTextoPregunta(preguntaEditada.textoPregunta);
-    preguntaEditada.id = this.preguntas[indice].id;
+    console.log(objetoPreguntaEditada);
+    //var indice = this.buscarIndicePorTextoPregunta(preguntaEditada.textoPregunta);
+    var indice = this.buscarIndicePorId(preguntaEditada.id);
+    //preguntaEditada.id = this.preguntas[indice].id;
     this.preguntas.splice(indice, 1, preguntaEditada);
     this.guardar();
     this.preguntaAgregada.notificar();
   },
 
   //se agrega una respuesta dado un id
-  // todo: anda! flata vista y controlador -- modelo.agregarRespuesta(2,'elculo de la mierda');
   agregarRespuesta: function(id, textonuevaRespuesta) {
-    //this.preguntas[2].cantidadPorRespuesta[2].textoRespuesta
     var nuevaRespuesta = {'cantidad': 0 ,'textoRespuesta': textonuevaRespuesta};
     var indicePreguntas = this.buscarIndicePorId(id);
-    // this.preguntas[indicePreguntas].cantidadPorRespuesta.push(nuevaRespuesta);
     this.preguntas[indicePreguntas].respuestas.push(nuevaRespuesta);
     this.guardar();
     this.respuestaAgregada.notificar();
@@ -108,15 +110,10 @@ Modelo.prototype = {
           this.preguntas[indicePreguntas].respuestas[i].cantidad++;
           console.log('entro al if debajo de la suma');
           this.guardar();
-          this.respuestaAgregada.notificar();
         break;
       }
     }
-  },
-
-  //editarPregunta
-  editarPregunta: function(id) {
-
+    this.votacionEfectuada.notificar();
   },
 
   //se borra pregunta dado un id
@@ -135,7 +132,6 @@ Modelo.prototype = {
   //se traen las preguntas del localStorage
   inicializaPreguntas: function() {
     var stringDelObjetoPreguntas = localStorage.getItem('encuestados_preguntas');
-    //this.preguntas = JSON.parse(stringDelObjetoPreguntas);
     if (stringDelObjetoPreguntas == null) {
       this.preguntas = [];
     }
@@ -145,7 +141,7 @@ Modelo.prototype = {
     this.preguntasInicializadas.notificar();
   },
 
-  //se guardan las preguntas
+  //se guardan las preguntas en el localStorage
   guardar: function(){
     localStorage.setItem('encuestados_preguntas', JSON.stringify(this.preguntas));
   },

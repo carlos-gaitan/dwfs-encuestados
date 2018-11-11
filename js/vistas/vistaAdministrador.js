@@ -36,9 +36,6 @@ VistaAdministrador.prototype = {
   construirElementoPregunta: function(pregunta){
     var contexto = this;
     var nuevoItem = $('<li class="list-group-item" id="' + pregunta.id + '">' + pregunta.textoPregunta + '</li>');
-    //var nuevoItem = `$(`<li class=“list-group-item” id=“${pregunta.id}“>${pregunta.textoPregunta}</li>`);`
-
-    //completar
     //asignar a nuevoitem un elemento li con clase "list-group-item", id "pregunta.id" y texto "pregunta.textoPregunta"
     var interiorItem = $('.d-flex');
     var titulo = interiorItem.find('h5');
@@ -66,31 +63,36 @@ VistaAdministrador.prototype = {
 
     //asociación de eventos
     e.botonAgregarPregunta.click(function() {
-      var textoPregunta = $('#pregunta').val();
-      var respuestas = [];
-      $('[name="option[]"]').each(function() {
-        var respuesta = $(this).val();
-        respuestas.push(respuesta);
-      });
-      contexto.controlador.agregarPregunta(textoPregunta, respuestas);
-      contexto.limpiarFormulario();
+      if ($('#pregunta').val().length > 0)  {
+        if ($('[name="option[]"]').val() !== "") {
+          var textoPregunta = $('#pregunta').val();
+          var respuestas = [];
+          $('[name="option[]"]').each(function() {
+            var respuesta = $(this).val();
+            respuestas.push(respuesta);
+          });
+          contexto.controlador.agregarPregunta(textoPregunta, respuestas);
+          contexto.limpiarFormulario();
+        } else {
+            alert("Al menos debes escribir una respuesta");
+        }
+      } else {
+        alert("El campo pregunta no puede estar vacio");
+      }
     });
     e.botonAgregarPreguntaEditada.click(function() {
       /*armamos conseguimos la pregunta y respuestas a editar*/
       var textoPregunta = $('#pregunta').val();
+      var preguntaId = $('#pregunta').data('dataId');
+      console.log(preguntaId);
       var respuestas = [];
       $('[name="option[]"]').each(function() {
         var respuesta = $(this).val();
-        // FIXME: Hay que arreglar este bug y sacar el if
-        // TODO: Por favor arreglar esta crotadaaaaaaaaa!
         if(respuesta != "") {
           respuestas.push(respuesta);
         };
       });
       /*ya tenemos la pregunta y respuestas, ahora las mostramos*/
-      console.log('--- Mensaje desde la vistaadmin ---');
-      console.log('Pregunta: ' + textoPregunta);
-      console.log('Respuestas: ' + respuestas);
       /*acomodamos el formulario y lo dejamos listo para volver a agregar una nueva pregunta*/
       $('#agregarPregunta').removeClass('hide');
       $('#agregarPreguntaEditada').addClass('hide');
@@ -99,43 +101,47 @@ VistaAdministrador.prototype = {
       contexto.reconstruirLista();
       contexto.limpiarFormulario();
       /*enviamos la pregunta y respuestas al controlador*/
-      contexto.controlador.agregarPreguntaEditada(textoPregunta, respuestas);
+      contexto.controlador.agregarPreguntaEditada(textoPregunta, respuestas, preguntaId);
     });
 
     // Completar la asociación de de eventos a los
     // botones editarPregunta, borrarPregunta y borrarTodo
     e.botonBorrarPregunta.click(function() {
-      var id = parseInt($('.list-group-item.active').attr('id'));
-      contexto.controlador.borrarPregunta(id);
+      if ($('.list-group-item.active').length > 0) {
+        var id = parseInt($('.list-group-item.active').attr('id'));
+        contexto.controlador.borrarPregunta(id);
+      } else {
+        alert("Debes selecciona una pregunta para poder borrar.");
+      }
     });
+
     e.botonBorrarTodo.click(function() {
       contexto.controlador.borrarTodo();
     });
 
     e.botonEditarPregunta.click(function() {
-      $('#agregarPregunta').addClass('hide');
-      $('#agregarPreguntaEditada').removeClass('hide');
-      var id = $('.list-group-item.active').attr('id');
-      var objetoPregunta = contexto.controlador.editarPregunta(id);
-      $('#pregunta').val(objetoPregunta.textoPregunta);
-      $('#respuesta .form-control').addClass('hide');
-      for (var i = 0; i < objetoPregunta.respuestas.length; i++) {
-        $('#optionTemplate').clone().removeClass('hide').addClass('agregado-a-mano').attr('id', i+1).insertBefore('#optionTemplate').find('[name="option[]"]').val(objetoPregunta.respuestas[i].textoRespuesta);
+      if ($('.list-group-item.active').length > 0) {
+        $('#agregarPregunta').addClass('hide');
+        $('#agregarPreguntaEditada').removeClass('hide');
+        var id = $('.list-group-item.active').attr('id');
+        var objetoPregunta = contexto.controlador.editarPregunta(id);
+        $('#pregunta').val(objetoPregunta.textoPregunta).data('dataId', objetoPregunta.id);
+        $('#respuesta .form-control').addClass('hide');
+        if ($('.agregado-a-mano').length > 0) {
+          $('.agregado-a-mano').remove();
+        }
+        for (var i = 0; i < objetoPregunta.respuestas.length; i++) {
+          $('#optionTemplate').clone().removeClass('hide').addClass('agregado-a-mano').attr('id', i+1).insertBefore('#optionTemplate').find('[name="option[]"]').val(objetoPregunta.respuestas[i].textoRespuesta);
+        }
+      } else {
+        alert("Debes selecciona una pregunta para poder editar.");
       }
     });
 
-    // e.botonGuardarPreguntaEditada.click(function() {
-    //   var textoPregunta = $('#pregunta').val();
-    //   var respuestas = [];
-    //   $('[name="option[]"]').each(function() {
-    //     var respuesta = $(this).val();
-    //     respuestas.push(respuesta);
-    //   });
-    //   contexto.controlador.agregarPreguntaEditada(textoPregunta, respuestas);
-    //   contexto.limpiarFormulario();
-    // });
-},
+  },
+
   limpiarFormulario: function(){
     $('.form-group.answer.has-feedback.has-success').remove();
   },
+
 };

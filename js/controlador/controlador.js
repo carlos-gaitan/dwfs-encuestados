@@ -6,6 +6,7 @@ var Controlador = function(modelo) {
 };
 
 Controlador.prototype = {
+
   agregarPregunta: function(textoPregunta, respuestas) {
     // var value = objetoPregunta;
     var objetoRespuestas = [];
@@ -15,20 +16,15 @@ Controlador.prototype = {
     this.modelo.agregarPregunta({'pregunta': textoPregunta, 'respuestas': objetoRespuestas});
   },
 
-  agregarPreguntaEditada: function(textoPregunta, respuestas) {
+  agregarPreguntaEditada: function(textoPregunta, respuestas, idPregunta) {
     var objetoPreguntaEditada = {
       'textoPregunta': textoPregunta,
-      'id': 0,
+      'id': idPregunta,
       'respuestas': [],
     };
     for (var i = 0; i < respuestas.length; i++) {
       objetoPreguntaEditada.respuestas.push({'textoRespuesta': respuestas[i], 'cantidad':0});
     };
-    // console.log('--- Mensaje desde el controlador ---');
-    // console.log('Pregunta: ' + objetoPreguntaEditada.textoPregunta);
-    // for (var i = 0; i < objetoPreguntaEditada.respuestas.length; i++) {
-    //   console.log('textoRespuesta: ' + objetoPreguntaEditada.respuestas[i].textoRespuesta + ' cantidad de votos: ' + objetoPreguntaEditada.respuestas[i].cantidad);
-    // };
     this.modelo.agregarPreguntaEditada(objetoPreguntaEditada);
   },
 
@@ -40,7 +36,7 @@ Controlador.prototype = {
   borrarTodo: function() {
     this.modelo.borrarTodo();
   },
-  
+
   inicializaPreguntas: function() {
     this.modelo.inicializaPreguntas();
   },
@@ -50,45 +46,21 @@ Controlador.prototype = {
     return objetoPregunta;
   },
 
-  // agregarVotos VIEJA
-  // agregarVotos: function(){
-  //   var contexto = this;
-  //   $('#preguntas').find('div').each(function(){
-  //     var nombrePregunta = $(this).attr("value");
-  //     var id = $(this).attr("id");
-  //     var pregunta = contexto.modelo.obtenerPregunta(nombrePregunta);
-  //     var respuestaSeleccionada = $('input[name=' + id + ']:checked').val();
-  //     $('input[name=' + id + ']').prop('checked',false);
-  //     contexto.agregarVoto(pregunta,respuestaSeleccionada);
-  //   });
-  // },
   agregarVotos: function() {
-    var contexto = this;
-    $('#preguntas').find('div').each(function() {
-      var pregunta = $(this).text();
-      var id = $(this).attr('id');
-      $('input[name=' + id + ']:checked').each(function() {
-        var respuestaSeleccionada = $(this).attr('value');
-        console.log(id, pregunta, respuestaSeleccionada);
-        contexto.modelo.sumarVoto(pregunta, respuestaSeleccionada);
+    if ($('#nombreUsuario').val().length > 0)  {
+      var contexto = this;
+      $('#preguntas').find('div').each(function() {
+        var pregunta = $(this).text();
+        var id = $(this).attr('id');
+        $('input[name=' + id + ']:checked').each(function() {
+          var respuestaSeleccionada = $(this).attr('value');
+          contexto.modelo.sumarVoto(pregunta, respuestaSeleccionada);
+        });
       });
-    });
+      alert("Gracias " + $('#nombreUsuario').val() + " por haber participado de la votacion de ENCUESTADOS!");
+  } else {
+    alert("Para poder votar debe ingresar su nombre de usuario");
+  }
   },
-
-  // Esto anda
-  // $('#preguntas').find('div').each(function(){
-  //   var pregunta = $(this).text();
-  //   var id = $(this).attr('id');
-  //   $('input[name=' + id + ']:checked').each(function() {
-  //     var respuestaSeleccionada = $(this).attr('value');
-  //     console.log(id, pregunta, respuestaSeleccionada);
-  //   });
-  // });
-
-  // 1 Que deporte practicas con mas frecuencia? correr
-  // 2 Que comidas elegís durante los periodos que estas deportivamente activo? frutas
-  // 3 Cuando necesitas o decidís desconectar de la rutina que lugar elegis? playa
-
-
 
 };
